@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.study.onlinebook.dao.mapper.ShopcatMapper">
+  <resultMap id="BaseResultMap" type="com.study.onlinebook.dao.entity.Shopcat">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="uid" jdbcType="BIGINT" property="uid" />
+    <result column="isbn" jdbcType="BIGINT" property="isbn" />
+    <result column="quantity" jdbcType="INTEGER" property="quantity" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from shopcat
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByUidAndIsbn">
+        delete from shopcat
+    where uid = #{uid,jdbcType=BIGINT} and isbn=#{isbn}
+  </delete>
+  <insert id="insert" parameterType="com.study.onlinebook.dao.entity.Shopcat">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into shopcat (`uid`, isbn, quantity
+      )
+    values (#{uid,jdbcType=BIGINT}, #{isbn,jdbcType=BIGINT}, #{quantity,jdbcType=INTEGER}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.study.onlinebook.dao.entity.Shopcat">
+    update shopcat
+    set `uid` = #{uid,jdbcType=BIGINT},
+      isbn = #{isbn,jdbcType=BIGINT},
+      quantity = #{quantity,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="addNumberByisbnanduid">
+        update shopcat
+    set
+      quantity =quantity+ #{number}
+    where uid = #{uid} and isbn=#{isbn}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select id, `uid`, isbn, quantity
+    from shopcat
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, `uid`, isbn, quantity
+    from shopcat
+  </select>
+
+
+  <resultMap type="com.study.onlinebook.dao.entity.ShopcatVo" id="ShopcatVo">
+
+  <result column="id" property="id"/>
+
+  <result column="uid" property="uid"/>
+
+  <result column="isbn" property="isbn"/>
+
+  <result column="quantity" property="quantity"/>
+
+  <association property="book" javaType="com.study.onlinebook.dao.entity.Book">
+
+  <id column="id" property="id"/>
+
+  <result column="bookname" property="bookname"/>
+
+  <result column="author" property="author"/>
+
+  <result column="price" property="price"/>
+
+  <result column="categorynumber" property="categorynumber"/>
+
+  <result column="isbn" property="isbn"/>
+
+  <result column="img" property="img"/>
+
+</association>
+
+</resultMap>
+
+  <select id="findAllByUid" resultMap="ShopcatVo">
+SELECT shopcat.id,shopcat.uid,shopcat.isbn,shopcat.quantity,book.id,book.bookname,book.author,book.price,book.categorynumber,book.isbn,img
+FROM shopcat
+LEFT JOIN book on shopcat.isbn=book.isbn
+where uid=#{uid}
+</select>
+  <select id="findByUidAndIsbn" resultMap="BaseResultMap" >
+        select id, `uid`, isbn, quantity
+    from shopcat
+    where uid=#{uid} and isbn=#{isbn}
+  </select>
+  <update id="updateByUidAndIsbn">
+        update shopcat
+    set
+      quantity = #{number,jdbcType=INTEGER}
+    where uid = #{uid,jdbcType=BIGINT} and isbn=#{isbn}
+  </update>
+</mapper>

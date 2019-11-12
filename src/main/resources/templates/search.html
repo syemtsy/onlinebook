@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/common1.css">
+    <link rel="stylesheet" href="/css/reset_search.css">
+    <link rel="stylesheet" href="css/searchlist.css">
+    <link rel="stylesheet" href="css/simplepop.css">
+    <link rel="stylesheet" href="css/style1.css">
+    <script src="js/jquery.min.js"></script>
+    <script src="/layer/layer.js"></script>
+    <script src="js/login.js"></script>
+    <style>.box{
+        display:flex;
+        justify-content:center;
+    }
+    </style>
+</head>
+<body>
+<!--head-->
+<div class="topBar">
+    <div class="w1200 clearfix">
+        <!--登录 注册-->
+        <div class="loginArea">
+            <b>欢迎光临网上书城&nbsp;请</b><a href="/login" class="login">登录</a>
+            <span>|</span>
+            <a href="/register" target="_blank" class="regist">注册</a>
+        </div>
+        <!--右侧工具栏-->
+        <div class="webTool">
+            <ul class="clearfix">
+                <li>
+                    <div class="dt">
+                        <a href="/myshopcatt" target="_blank">购物车</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="dt">
+                        <a href="/myorder" target="_blank">我的订单</a>
+                    </div>
+                </li>
+                <li class="drop">
+                    <div class="dt">
+                        <a href="" target="_blank">我的账户</a>
+                        <b class="icon"></b>
+                    </div>
+                    <div class="dropLayer" style="width: 162px;">
+                        <a href="" target="_blank">我的收藏夹</a>
+                        <a href="" target="_blank">账户余额</a>
+                        <!--                        <a href="" target="_blank">我的优惠券</a>-->
+                        <!--                        <a href="" target="_blank">我的积分</a>-->
+                        <a href="" target="_blank">收货地址</a>
+                        <!--                        <a href="" target="_blank">我的书评</a>-->
+                        <a href="" target="_blank">我的消息</a>
+                        <!--                        <a href="" target="_blank">积分换券</a>-->
+                    </div>
+                </li>
+                <li>
+                    <div class="dt">
+                        <a href="" target="_blank">帮助中心</a>
+                    </div>
+                </li>
+
+
+
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="searchbox">
+    <div class="mod_select">
+        <div class="select_box">
+            <span class="select_txt">全部</span>
+            <span class="select-icon"></span>
+            <ul class="option">
+                <li>全部</li>
+                <li>书名</li>
+                <li>作者</li>
+            </ul>
+        </div>
+    </div>
+    <div>
+        <input type="hidden" name="" value="book" id="select_value">
+        <input type="text" name="" id="searchPlaceholder" class="import" placeholder="请输入关键词">
+        <input type="submit" value="搜   索" class="btn-search">
+    </div>
+</div>
+<script>
+    function addBook(parameters) {
+        var a = "<div class=\"container\" id=\"container\">\n" +
+            "    <div class=\"listMain clearfix box\">\n" +
+            "        <div class=\"listLeft\">\n" +
+            "            <!--搜索结果提示-->\n" +
+            "\n" +
+            "\n" +
+            "            <div class=\"bookList\">\n" +
+            "\n" +
+            "                <ul>\n" +
+            "                    <li>\n" +
+            "                        <div class=\"cover\">\n" +
+            "                            <a href=" + "\"/bookinfo?isbn="+parameters["isbn"] +"\""+ " target=\"_blank\" title=\"\">\n" +
+            "                                <img src=" + "\"/images/" + parameters["img"] + "\"" +
+            " alt=\"\" data-original=\"http://image12.bookschina.com/2018/20180520/s7743833.jpg\" class=\"lazyImg\"></a>\n" +
+            "                        </div>\n" +
+            "                        <div class=\"infor\">\n" +
+            "                            <h2 class=\"name\"><a href=\"/7743833.htm\" target=\"_blank\" title=\"\">" + parameters["bookname"] + "</a></h2>\n" +
+            "                            <div class=\"otherInfor\"><a href=\"/Books/allbook/allauthor.asp?stype=author&amp;sbook=\" target=\"_blank\" class=\"author\">" + parameters["author"] + "</a><i>&nbsp;&nbsp;/&nbsp;&nbsp;</i><span class=\"pulishTiem\" title=\"出版时间\">2017-12-01&nbsp;&nbsp;/&nbsp;&nbsp;</span><a href=\"/publish/5004/\" target=\"_blank\" class=\"publisher\">" + parameters["categorynumber"] + "</a></div>\n" +
+            "                            <div class=\"priceWrap\"><span class=\"sellPrice\">¥" + parameters["price"] + "</span></div>\n" +
+            "\n" +
+            "\n" +
+            "\n" +
+            "                            <p class=\"recoLagu\"></p>\n" +
+            "                            <div class=\"oparateButton\">\n" +
+            "                                <a href=\"javascript:void(0);\" onclick=\"shopcarAdd(" + parameters["isbn"] + ");\" class=\"buyButton\">加入购物车</a>\n" +
+            "                                <a href=\"javascript:viod(0);\" onclick=\"Addorders("+parameters["isbn"]+")\" class=\"collectBtn\">购买</a>\n" +
+            "                            </div>\n" +
+            "                        </div>\n" +
+            "                    </li>\n" +
+            "\n" +
+            "                </ul>\n" +
+            "\n" +
+            "            </div>\n" +
+            "\n" +
+            "            <!--搜索推荐标题-->\n" +
+            "\n" +
+            "        </div>\n" +
+            "\n" +
+            "        <div class=\"listRight\">\n" +
+            "            <div class=\"listRightInner\" style=\"top: 0px;\">\n" +
+            "\n" +
+            "\n" +
+            "            </div>\n" +
+            "        </div>\n" +
+            "    </div>\n" +
+            "</div>";
+
+        $(".searchbox").after(a);
+
+    }
+    function Addorders(isbn) {
+        info = new Array();
+        info[0] = isbn + "*" + 1;
+        $.ajax({
+            type: "POST",
+            url: "/order",
+            data: {orderinfo:info, source: "buy"},
+            success: function (data) {
+                window.location.href = "/orderform?orderid="+data;
+
+            }
+        });
+    }
+    function showShopcatsuccess() {
+        layer.open({
+            type: 1,
+            skin: 'layui-layer-dialog',
+            shadeClose: true,
+            content: '<div class="addokBox"><i class="layui-layer-ico layui-layer-ico1"></i><span>添加成功。</span> <a href="/myshopcatt">去购物车</a></div>'
+        });
+    }
+
+    function shopcarAdd(isbn) {
+        $.ajax({
+            type: 'POST',
+            url: "/shopcat",
+            data: {"info":isbn+"*1"},
+            success: function (data) {
+                if (data == true) {
+                    showShopcatsuccess();
+                }
+
+            },
+            dataType: "json"
+        });
+    }
+
+    function search() {
+        var string = $("#searchPlaceholder").val();
+        var pageble_number = 1;
+        var Uarry = $(".option li");//获取所有的li元素
+        var a = new Array();
+        for (i = 0;i < Uarry.length; i++){
+            a[i] = Uarry[i].innerText;
+        }
+        var select = a.indexOf($(".select_txt").text());
+        $.ajax({
+            type: 'POST',
+            url: "/booklist",
+            data: {"pageble_number":pageble_number,"string":string,"select":select},
+            success: function (data) {
+                $("div").remove("#container");
+                $.each(data, function (i, n) {
+                    addBook(n)
+                });
+
+            },
+            dataType: "json"
+        });
+    }
+    $(function(){
+        isLogin();
+        var loc = window.location.href;
+        var urlpara
+        if (loc.split("?").length == 2) {
+             urlpara= loc.split("?")[1].split("=")[1];
+            if (urlpara != null || urlpara != "") {
+
+                $("#searchPlaceholder").val(decodeURI(urlpara));
+                var state = {title:'',url:window.location.href};
+                history.pushState(state,'',loc.split("?")[0]);
+            }
+        }
+
+        search();
+
+        $(".btn-search").click(function () {
+            search();
+
+        });
+        $(".select_box").click(function(event){
+            event.stopPropagation();
+            $(this).find(".option").toggle();
+            $(this).parent().siblings().find(".option").hide();
+        });
+        $(document).click(function(event){
+            var eo=$(event.target);
+            if($(".select_box").is(":visible") && eo.attr("class")!="option" && !eo.parent(".option").length)
+                $('.option').hide();
+        });
+        $(".option li").click(function(){
+            var check_value=$(this).text();
+            var zlValue = $('.option li:eq(1)').html();
+            var bqValue = $('.option li:eq(2)').html();
+            $(this).parent().siblings(".select_txt").text(check_value);
+            $("#select_value").val(check_value);
+            if(check_value == zlValue) {
+                $('#searchPlaceholder').prop('placeholder','请输入书名');
+            }else if(check_value == bqValue) {
+                $('#searchPlaceholder').prop('placeholder','请输入作者名');
+            }else {
+                $('#searchPlaceholder').prop('placeholder','请输入关键词');
+            }
+        });
+    })
+</script>
+
+<div style="text-align:center;">
+    <!--<p>更多模板：<a href="http://www.mycodes.net/" target="_blank">源码之家</a></p>-->
+</div>
+
+<!--书本-->
+
+</body>
+</html>

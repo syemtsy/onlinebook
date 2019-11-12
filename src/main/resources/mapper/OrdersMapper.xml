@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.study.onlinebook.dao.mapper.OrdersMapper">
+  <resultMap id="BaseResultMap" type="com.study.onlinebook.dao.entity.Orders">
+    <result column="orderid" jdbcType="BIGINT" property="orderid" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="uid" jdbcType="BIGINT" property="uid" />
+    <result column="money" jdbcType="DECIMAL" property="money" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="message" jdbcType="VARCHAR" property="message" />
+      <result column="addressid" jdbcType="INTEGER" property="addressid"/>
+  </resultMap>
+    <resultMap id="OrdersVo" type="com.study.onlinebook.dao.entity.OrdersVo">
+        <result column="orderid" jdbcType="BIGINT" property="orderid" />
+        <result column="status" jdbcType="INTEGER" property="status" />
+        <result column="uid" jdbcType="BIGINT" property="uid" />
+        <result column="money" jdbcType="DECIMAL" property="money" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+        <result column="message" jdbcType="VARCHAR" property="message" />
+        <result column="addressid" jdbcType="INTEGER" property="addressid"/>
+        <collection property="ordersinfolist" ofType="com.study.onlinebook.dao.entity.Ordersinfo">
+            <result column="id" property="id" />
+            <result column="orderinfoid" property="orderinfoid" />
+            <result column="isbn"  property="isbn" />
+            <result column="number" property="number" />
+        </collection>
+    </resultMap>
+    <resultMap id="OrdersVoVo" type="com.study.onlinebook.dao.entity.OrdersVoVo">
+        <result column="orderid" jdbcType="BIGINT" property="orderid"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="uid" jdbcType="BIGINT" property="uid"/>
+        <result column="money" jdbcType="DECIMAL" property="money"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="message" jdbcType="VARCHAR" property="message"/>
+        <result column="addressid" jdbcType="INTEGER" property="addressid"/>
+        <collection property="ordersinfos" ofType="com.study.onlinebook.dao.entity.Ordersinfo">
+            <result column="id" property="id"/>
+            <result column="orderinfoid" property="orderinfoid"/>
+            <result column="isbn" property="isbn"/>
+            <result column="number" property="number"/>
+        </collection>
+        <collection property="books" ofType="com.study.onlinebook.dao.entity.Book">
+            <result column="id" property="id"/>
+            <result column="bookname" property="bookname"/>
+            <result column="author" property="author"/>
+            <result column="price" property="price"/>
+            <result column="categorynumber" property="categorynumber"/>
+            <result column="isbn" property="isbn"/>
+            <result column="img" property="img"/>
+        </collection>
+    </resultMap>
+  <insert id="insert" parameterType="com.study.onlinebook.dao.entity.Orders">
+    <selectKey keyProperty="orderid" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into orders (orderid,`status`, `uid`, money,
+      create_time, update_time, message,addressid
+      )
+    values (#{orderid,jdbcType=BIGINT},#{status,jdbcType=INTEGER}, #{uid,jdbcType=BIGINT}, #{money,jdbcType=DECIMAL},
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{message,jdbcType=VARCHAR},#{addressid,jdbcType=INTEGER}
+      )
+  </insert>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select orderid, `status`, `uid`, money, create_time, update_time, message,addressid
+    from orders
+  </select>
+  <update id="UpdateStatus">
+        update orders
+    set status = #{status},
+      update_time = #{update_time,}
+    where orderid = #{orderid}
+  </update>
+  <select id="findAllByUid" resultMap="BaseResultMap">
+        SELECT
+        *
+            FROM
+            orders
+            where orders.uid=#{uid}
+  </select>
+
+    <select id="findOrdersVoByOrderid" resultMap="OrdersVoVo">
+            SELECT *
+            FROM
+            orders
+			LEFT JOIN ordersinfo on orders.orderid=ordersinfo.orderinfoid
+			LEFT JOIN book on	ordersinfo.isbn=book.isbn
+            where orders.uid=#{uid} and orders.orderid=#{orderid}
+    </select>
+    <update id="updataMsgandAddressByOrderid" >
+        update orders
+    set message =#{msg},
+        addressid=#{addressid}
+    where orderid = #{orderid};
+
+    </update>
+
+
+</mapper>

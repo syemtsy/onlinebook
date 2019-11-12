@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.study.onlinebook.dao.mapper.BookMapper">
+  <resultMap id="BaseResultMap" type="com.study.onlinebook.dao.entity.Book">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="bookname" jdbcType="VARCHAR" property="bookname" />
+    <result column="author" jdbcType="VARCHAR" property="author" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="categorynumber" jdbcType="VARCHAR" property="categorynumber" />
+    <result column="isbn" jdbcType="BIGINT" property="isbn" />
+    <result column="img" jdbcType="VARCHAR" property="img" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from book
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.study.onlinebook.dao.entity.Book">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into book (bookname, author, price, 
+      categorynumber, isbn, img
+      )
+    values (#{bookname,jdbcType=VARCHAR}, #{author,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, 
+      #{categorynumber,jdbcType=VARCHAR}, #{isbn,jdbcType=BIGINT}, #{img,jdbcType=VARCHAR}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.study.onlinebook.dao.entity.Book">
+    update book
+    set bookname = #{bookname,jdbcType=VARCHAR},
+      author = #{author,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DECIMAL},
+      categorynumber = #{categorynumber,jdbcType=VARCHAR},
+      isbn = #{isbn,jdbcType=BIGINT},
+      img = #{img,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select id, bookname, author, price, categorynumber, isbn, img
+    from book
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, bookname, author, price, categorynumber, isbn, img
+    from book
+  </select>
+  <select id="findByIsbn" resultMap="BaseResultMap">
+    select id, bookname, author, price, categorynumber, isbn,img
+    from book
+    where isbn=#{isbn}
+  </select>
+  <select id="findAllByBooknameLikeOrAuthorLike" resultMap="BaseResultMap">
+    select id, bookname, author, price, categorynumber, isbn,img
+    from book
+    <where>
+      <if test="bookname!=null  and bookname!=''">
+        bookname like concat("%",#{bookname} ,"%")
+      </if>
+      <if test="author!=null  and author!=''">
+        or author like concat("%",#{author} ,"%")
+      </if>
+    </where>
+  </select>
+
+  <resultMap id="BookVo" type="com.study.onlinebook.dao.entity.BookVo">
+    <id column="id" property="id" />
+    <result column="bookname" property="bookname" />
+    <result column="author" property="author" />
+    <result column="price" property="price" />
+    <result column="categorynumber" property="categorynumber" />
+    <result column="isbn" property="isbn" />
+    <result column="img" property="img" />
+    <association javaType="com.study.onlinebook.dao.entity.Detailedbook" property="detailedbook">
+      <id column="isbn" property="isbn" />
+      <result column="publishinghouse" property="publishinghouse" />
+      <result column="publisheddate" property="publisheddate" />
+      <result column="format" property="format" />
+      <result column="nuberofpages" property="nuberofpages" />
+      <result column="readerrating" property="readerrating" />
+      <result column="ranking" property="ranking" />
+      <result column="copyrightinformation" property="copyrightinformation" />
+      <result column="barcode" property="barcode" />
+      <result column="binding" property="binding" />
+      <result column="edition" property="edition" />
+      <result column="numberofbooks" property="numberofbooks" />
+      <result column="weight" property="weight" />
+      <result column="numberofprints" property="numberofprints" />
+      <result column="category" property="category" />
+    </association>
+  </resultMap>
+  <select id="findBookVoByIsbn" resultMap="BookVo">
+            SELECT
+                    book.id,
+                    book.bookname,
+                    book.author,
+                    book.price,
+                    book.categorynumber,
+                    book.isbn,
+                    book.img,
+                    detailedbook.isbn,
+                    detailedbook.publishinghouse,
+                    detailedbook.publisheddate,
+                    detailedbook.format,
+                    detailedbook.nuberofpages,
+                    detailedbook.readerrating,
+                    detailedbook.ranking,
+                    detailedbook.copyrightinformation,
+                    detailedbook.barcode,
+                    detailedbook.binding,
+                    detailedbook.edition,
+                    detailedbook.numberofbooks,
+                    detailedbook.weight,
+                    detailedbook.numberofprints,
+                    detailedbook.category
+            FROM
+            book
+            LEFT JOIN detailedbook
+            on
+            book.isbn=detailedbook.isbn
+            where book.isbn=#{isbn}
+    </select>
+
+</mapper>

@@ -1,0 +1,200 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>网上书城_首页</title>
+<link rel="stylesheet" href="css/common1.css">
+<link rel="stylesheet" href="/css/reset_search.css">
+<link rel="stylesheet" href="css/reset.css">
+<link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style1.css">
+    <script src="/static/js/carts.js"></script>
+
+</head>
+<body>
+<!--head-->
+<div class="topBar">
+    <div class="w1200 clearfix">
+        <!--登录 注册-->
+        <div class="loginArea">
+            <b>欢迎光临网上书城&nbsp;请</b><a href="/login" class="login">登录</a>
+            <span>|</span>
+            <a href="/register" target="_blank" class="regist">注册</a>
+        </div>
+        <!--右侧工具栏-->
+        <div class="webTool">
+            <ul class="clearfix">
+                <li>
+                    <div class="dt">
+                        <a href="/myshopcatt" target="_blank">购物车</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="dt">
+                        <a href="/myorder" target="_blank">我的订单</a>
+                    </div>
+                </li>
+                <li class="drop">
+                    <div class="dt">
+                        <a href="" target="_blank">我的账户</a>
+                        <b class="icon"></b>
+                    </div>
+                    <div class="dropLayer" style="width: 162px;">
+                        <a href="" target="_blank">我的收藏夹</a>
+                        <a href="" target="_blank">账户余额</a>
+<!--                        <a href="" target="_blank">我的优惠券</a>-->
+<!--                        <a href="" target="_blank">我的积分</a>-->
+                        <a href="" target="_blank">收货地址</a>
+<!--                        <a href="" target="_blank">我的书评</a>-->
+                        <a href="" target="_blank">我的消息</a>
+<!--                        <a href="" target="_blank">积分换券</a>-->
+                    </div>
+                </li>
+                <li>
+                    <div class="dt">
+                        <a href="" target="_blank">帮助中心</a>
+                    </div>
+                </li>
+
+
+
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!--search-->
+  <div class="searchbox">
+    <div class="mod_select">
+        <div class="select_box">
+            <span class="select_txt">全部</span>
+            <span class="select-icon"></span>
+            <ul class="option">
+                <li>全部</li>
+                <li>书名</li>
+                <li>作者</li>
+            </ul>
+        </div>
+    </div>
+    <div>
+        <input type="hidden" name="" value="服装" id="select_value">
+        <input type="text" name="" id="searchPlaceholder" class="import" placeholder="请输入关键词">
+        <input type="submit" value="搜   索" class="btn-search">
+    </div>
+  </div>
+  <script src="js/jquery.min.js"></script>
+<script src="js/login.js"></script>
+  <script>
+    $(function(){
+        isLogin();
+        $(".btn-search").click(function () {
+            var string = $("#searchPlaceholder").val();
+            var pageble_number = 1;
+            var Uarry = $(".option li");//获取所有的li元素
+            var a = new Array();
+            for (i = 0;i < Uarry.length; i++){
+                a[i] = Uarry[i].innerText;
+            }
+            var select = a.indexOf($(".select_txt").text());
+            $.ajax({
+                type: 'POST',
+                url: "/booklist",
+                data: {"pageble_number":pageble_number,"string":string,"select":select},
+                success: function (data) {
+                    window.location.href = "/search?string=" + $("#searchPlaceholder").val();
+                },
+                dataType: "json"
+            });
+
+        });
+        $(".select_box").click(function(event){   
+            event.stopPropagation();
+            $(this).find(".option").toggle();
+            $(this).parent().siblings().find(".option").hide();
+        });
+        $(document).click(function(event){
+            var eo=$(event.target);
+            if($(".select_box").is(":visible") && eo.attr("class")!="option" && !eo.parent(".option").length)
+            $('.option').hide();                                    
+        });
+        $(".option li").click(function(){
+            var check_value=$(this).text();
+            var zlValue = $('.option li:eq(1)').html();
+            var bqValue = $('.option li:eq(2)').html();
+            $(this).parent().siblings(".select_txt").text(check_value);
+            $("#select_value").val(check_value);
+            if(check_value == zlValue) {
+                $('#searchPlaceholder').prop('placeholder','请输入书名');
+            }else if(check_value == bqValue) {
+                $('#searchPlaceholder').prop('placeholder','请输入作者名');
+            }else {
+                $('#searchPlaceholder').prop('placeholder','请输入关键词');
+            }
+        });
+    })
+  </script>
+
+<div style="text-align:center;">
+<!--<p>更多模板：<a href="http://www.mycodes.net/" target="_blank">源码之家</a></p>-->
+</div>
+  <br>
+  <div class="wbox">
+      <div class="slide_box clearfix">
+          <div class="Jslide" id="Jslide">
+              <div class="slide-list" id="slide-list">
+                  <div class="slide-ul" style="display:block;">
+                      <ul>
+                          <li class="w1" style="display:block;"><a href="#" class="a_0" title="" rel="nofollow" target="_blank"><img src="images/gonggaoban.jpg" style="height: 750px" alt="" /></a>
+                          </li>
+                      </ul>
+                  </div>
+                  <div class="slide-ul">
+                      <ul>
+                          <li class="w1" style="display:block;">
+                              <a href="#" rel="nofollow" class="a_0" title="" target="_blank"><img src="images/5486044.jpg"  alt="" /></a>
+                          </li>
+                          <li class="w1" style="display:block;">
+                              <a href="#" rel="nofollow" class="a_0" title="" target="_blank"><img src="images/6786989.jpg" alt="" /></a>
+                          </li>
+                      </ul>
+                  </div>
+
+              </div>
+              <ul class="slide-tab" id="slide-tab">
+                  <li class="current" >
+                      <div class="text">
+                          <em></em>
+                          <span>公告</span>
+                          <div class="num"></div>
+                      </div>
+                      <div class="item">
+                          <a href="#" hidefocus="true">公告</a>
+                      </div>
+                  </li>
+                  <li>
+                      <div class="text">
+                          <em></em>
+                          <span>本周热卖</span>
+                          <div class="num"></div>
+                      </div>
+                      <div class="item">
+                          <a href="#" hidefocus="true">本周热卖</a>
+                          <a href="#" hidefocus="true">本周热卖</a>
+                      </div>
+                  </li>
+
+              </ul>
+              <a href="#" class="dir go_l" id="go_l" hidefocus="true"></a>
+              <a href="#" class="dir go_r" id="go_r" hidefocus="true"></a>
+          </div>
+      </div>
+  </div>
+
+  <script type="text/javascript" src="js/guomei.js"></script>
+
+  <div style="text-align:center;">
+  </div>
+</body>
+</html>

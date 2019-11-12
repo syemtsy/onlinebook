@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="css/book.css">
+    <link rel="stylesheet" href="css/books.css">
+    <link rel="stylesheet" href="css/common2.css"/>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/login.js"></script>
+    <script>
+        $(function () {
+            isLogin();
+        })
+    </script>
+</head>
+<body>
+<!--head-->
+<div class="topBar">
+    <div class="w1200 clearfix">
+        <!--登录 注册-->
+        <div class="loginArea">
+            <b>欢迎光临网上书城&nbsp;请</b><a href="/login" class="login">登录</a>
+            <span>|</span>
+            <a href="/register" target="_blank" class="regist">注册</a>
+        </div>
+        <!--右侧工具栏-->
+        <div class="webTool">
+            <ul class="clearfix">
+                <li>
+                    <div class="dt">
+                        <a href="/myshopcatt" target="_blank">购物车</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="dt">
+                        <a href="/myorder" target="_blank">我的订单</a>
+                    </div>
+                </li>
+                <li class="drop">
+                    <div class="dt">
+                        <a href="" target="_blank">我的账户</a>
+                        <b class="icon"></b>
+                    </div>
+                    <div class="dropLayer" style="width: 162px;">
+                        <a href="" target="_blank">我的收藏夹</a>
+                        <a href="" target="_blank">账户余额</a>
+                        <!--                        <a href="" target="_blank">我的优惠券</a>-->
+                        <!--                        <a href="" target="_blank">我的积分</a>-->
+                        <a href="" target="_blank">收货地址</a>
+                        <!--                        <a href="" target="_blank">我的书评</a>-->
+                        <a href="" target="_blank">我的消息</a>
+                        <!--                        <a href="" target="_blank">积分换券</a>-->
+                    </div>
+                </li>
+                <li>
+                    <div class="dt">
+                        <a href="" target="_blank">帮助中心</a>
+                    </div>
+                </li>
+
+
+
+            </ul>
+        </div>
+    </div>
+</div>
+<div id="booksPage">
+    <table width="1000" border="0" align="center">
+        <tbody><tr>
+
+            <td width="800" valign="top">
+                <table width="100%" border="0" align="center">
+                    <tbody>
+                    <tr>
+                    </tr>
+                    <tr>
+                        <td colspan="8">
+                            <div align="right">
+                                共有订单0条，分0页显示，每页显示20条订单
+
+                            </div>
+                        </td>
+                    </tr>
+                    <tr height="30">
+                        <td colspan="8">
+                            <table border="0" cellspacing="0" cellpadding="0" width="100%"><tbody><tr><td background="/images/lace1.jpg" width="113" height="29"></td><td width="107" align="center" style="background: url(/images/lace2d.jpg) no-repeat;border: 3px #FFF solid; border-bottom: none; border-top: none;"><a href="listorder.aspx?type=2">查看所有订单</a></td><td width="126" align="center" style="background: url(/images/lace3d.jpg) no-repeat;border: 3px #FFF solid; border-bottom: none; border-top: none;"><a href="listorder.aspx?type=3">查看已取消订单</a></td><td>&nbsp;</td></tr></tbody></table>
+                            <table width="100%" border="0" cellspacing="0" bordercolor="#ffffff" bordercolorlight="#d0daeb" bordercolordark="#ffffff">
+                                <!--<tr bgcolor="#ecf3ff" height="30">
+                                <td height="30" align="center">&nbsp;                                        </td>
+                                <td height="30" align="center">
+                                    订单号                                        </td>
+                                <td align="center">
+                                    金额(元)                                        </td>
+                                <td align="center">
+                                    订购日期                                        </td>
+                                <td align="center">
+                                    付款方式                                        </td>
+                                <td align="center">
+                                    订单状态                                        </td>
+                                <td align="center">
+                                    操作                                        </td>
+                            </tr>-->
+
+                                <tbody id="orderlist">
+                                <tr>
+                                    <td height="30" colspan="7" valign="middle">
+                                        <div class="listordertit">
+                                            <ul>
+                                                <li style="width: 130px;">订单号</li>
+                                                <li style="width: 80px;">金额(元)</li>
+                                                <li style="width: 130px;">订购日期</li>
+                                                <li style="width: 90px;">付款方式</li>
+                                                <li style="width: 90px;">订单状态</li>
+                                                <li style="width: 50px;">电子发票</li>
+                                                <li class="noneb" style="width: 160px;">操作</li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+
+
+                                </tbody></table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="8" height="35">
+                            <div align="right">
+                                共有订单0条，分0页显示，每页显示20条订单
+
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody></table>
+                <table border="0" height="36" cellspacing="0" cellpadding="0" align="center" width="100%">
+                    <tbody><tr>
+                        <td>
+                            <div align="center">
+                                <input type="submit" name="CancleOrd" value="取消订单" onclick="return checkclick();" id="CancleOrd">
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody></table>
+            </td>
+        </tr>
+
+        </tbody></table>
+</div>
+<script>
+    function addorder(json) {
+        var orderstatus = "";
+        var userinfo = "";
+        if (json.status == 0) {
+            orderstatus="订单失效"
+        }
+        if (json.status == 1) {
+            orderstatus = "等待支付";
+            userinfo = "|<a href=\"/orderinfo?orderid=" + json.orderid + "\" target=\"_blank\" style=\"\">修改收货信息</a>";
+        }
+        if (json.status == 2) {
+            orderstatus = "支付成功";
+
+        }
+        var content="                                <tr class='orderinfo'>\n" +
+            "                                    <td height=\"30\" colspan=\"7\" valign=\"middle\">\n" +
+            "                                        <div class=\"listorder\">\n" +
+            "                                            <ul>\n" +
+            "                                                <li style=\"width: 130px;\">\n" +
+            "                                                    <h1>\n" +
+            "                                                        <span title=\"\"><input id=\"rptOrder_chkOrder_0\" type=\"checkbox\" name=\"rptOrder$ctl00$chkOrder\"></span><a href=\"/orderinfo?orderid=" +
+            json.orderid+"\" target=\"_blank\">\n" +
+            "                                                        " +
+            json.orderid +
+            "</a>\n" +
+            "\n" +
+            "                                                    </h1>\n" +
+            "                                                </li>\n" +
+            "                                                <li style=\"width: 80px;\">" +
+            json.money +
+            "</li>\n" +
+            "                                                <li style=\"width: 130px;\">" +
+            json.createTime.split(".")[0] +
+            "</li>\n" +
+            "                                                <li style=\"width: 90px;\">在线支付</li>\n" +
+            "                                                <li style=\"width: 90px;\">" +
+            orderstatus +
+            "</li>\n" +
+            "                                                <li style=\"width: 50px;\">\n" +
+            "                                                    无\n" +
+            "                                                </li>\n" +
+            "                                                <li style=\"width: 160px;\"><a href=\"/orderinfo?orderid=" +
+            json.orderid +
+            "\" target=\"_blank\">订单详情</a>\n" +
+            "\n" +
+            "                                                     " + userinfo+
+            "\n" +
+            "\n" +
+            "                                                </li>\n" +
+            "                                            </ul>\n" +
+            "                                        </div>\n" +
+            "                                    </td>\n" +
+            "                                </tr>";
+        $("#orderlist").append(content);
+    }
+    function getorderlist() {
+        $.ajax({
+            type: "GET",
+            url: "/orderlist",
+            data: {pageable: 1},
+            success:function (data) {
+                $(".orderinfo").remove();
+                    $.each(data,function (i,json) {
+                        addorder(json);
+                    })
+            }
+        })
+    }
+    $(function () {
+        getorderlist();
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.study.onlinebook.dao.mapper.ShippingaddressMapper">
+  <resultMap id="BaseResultMap" type="com.study.onlinebook.dao.entity.Shippingaddress">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="uid" jdbcType="BIGINT" property="uid" />
+    <result column="addressinfo" jdbcType="VARCHAR" property="addressinfo" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="postalcode" jdbcType="INTEGER" property="postalcode" />
+    <result column="receiver" jdbcType="VARCHAR" property="receiver" />
+    <result column="tel" jdbcType="BIGINT" property="tel" />
+    <result column="defult" jdbcType="INTEGER" property="defult" />
+    <result column="addressid" jdbcType="INTEGER" property="addressid" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from shippingaddress
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.study.onlinebook.dao.entity.Shippingaddress">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into shippingaddress (`uid`, addressinfo, address, 
+      postalcode, receiver, tel, 
+      defult, addressid)
+    values (#{uid,jdbcType=BIGINT}, #{addressinfo,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{postalcode,jdbcType=INTEGER}, #{receiver,jdbcType=VARCHAR}, #{tel,jdbcType=BIGINT}, 
+      #{defult,jdbcType=INTEGER}, #{addressid,jdbcType=INTEGER})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.study.onlinebook.dao.entity.Shippingaddress">
+    update shippingaddress
+    set `uid` = #{uid,jdbcType=BIGINT},
+      addressinfo = #{addressinfo,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      postalcode = #{postalcode,jdbcType=INTEGER},
+      receiver = #{receiver,jdbcType=VARCHAR},
+      tel = #{tel,jdbcType=BIGINT},
+      defult = #{defult,jdbcType=INTEGER},
+      addressid = #{addressid,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateNoDefultByUid">
+    update shippingaddress set `defult` =0
+    where uid=#{uid}
+  </update>
+  <update id="updateDefultByUidAndAddressId">
+      update shippingaddress set  `defult` = 1
+       where addressid=#{addressid,jdbcType=INTEGER} and uid=#{uid}
+    </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, `uid`, addressinfo, address, postalcode, receiver, tel, defult, addressid
+    from shippingaddress
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, `uid`, addressinfo, address, postalcode, receiver, tel, defult, addressid
+    from shippingaddress
+  </select>
+  <select id="selectAllByUid" resultType="com.study.onlinebook.dao.entity.Shippingaddress">
+        select id, `uid`, addressinfo, address, postalcode, receiver, tel, defult,addressid
+    from shippingaddress
+    where uid=#{uid}
+  </select>
+  <select id="selectdulfaddress" resultType="java.lang.Integer">
+    select addressid from shippingaddress
+    where uid=#{uid} and defult=1
+  </select>
+
+</mapper>

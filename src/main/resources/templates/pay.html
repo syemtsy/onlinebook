@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="css/umi.c21bc504.css">
+    <link rel="shortcut icon" type="image/ico" href="images/mplogo1.png">
+    <link rel="stylesheet" href="css/umi.c21bc504.css">
+    <link rel="stylesheet" type="text/css" href="css/vendors.3decd241.chunk.css">
+    <link rel="stylesheet" type="text/css" href="css/3.a72a0e7c.chunk.css">
+    <link rel="stylesheet" href="css/common1.css">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/style1.css">
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/qrcode.js"></script>
+    <script src="/layer/layer.js"></script>
+    <script src="js/login.js"></script>
+
+    <script>
+        function showShopcatsuccess() {
+            layer.open({
+                type: 1,
+                skin: 'layui-layer-dialog',
+                shadeClose: true,
+                content: '<div class="addokBox"><i class="layui-layer-ico layui-layer-ico1"></i><span>添加成功。</span> <a href="/myshopcat">去购物车</a></div>'
+            });
+        }
+        var t = 60;
+        var loc = window.location.href;
+        var paraStr = loc.split("?")[1];
+        var urlpara = paraStr.split("&");
+        var Pay = false;
+        var ts;
+            //显示倒数秒数
+            function showTime() {
+
+                if (Pay == false&&t!=0) {
+                    t -= 1;
+                    Pay = isPay(urlpara[2].split("=")[1]);
+                    document.getElementById('showtimes').innerHTML = t;
+                    if (t == 0) {
+                        layer.open({
+                            type: 1,
+                            skin: 'layui-layer-dialog',
+                            shadeClose: true,
+                            content: '<div class="addokBox"><i class="layui-layer-ico layui-layer-ico1"></i><span>页面以过期。</span> <a href="/myshopcatt">去购物车</a></div>',
+                            end:function () {
+                                window.location.href = "/myshopcatt";
+                            }
+                        });
+                    }
+                }
+
+              ts=  setTimeout("showTime()", 1000);
+            };
+
+        function isPay(orderid) {
+            var b = false;
+            $.ajax({
+                type: "GET",
+                url: "/order",
+                data: {orderid: orderid},
+                async: false,
+                success:function (data) {
+                    if (data==true) {
+                        b = true;
+                            layer.open({
+                                type: 1,
+                                skin: 'layui-layer-dialog',
+                                shadeClose: true,
+                                    content: '<div class="addokBox"><i class="layui-layer-ico layui-layer-ico1"></i><span>支付成功。</span> <a href="/myshopcatt">去个人中心</a></div>',
+                                end:function () {
+                                    window.location.href = "/myshopcatt";
+                                }
+                            }
+                            );
+                    }
+                }
+            })
+            return b;
+        }
+        $(function () {
+            isLogin();
+
+            var qrcode = new QRCode(document.getElementById("qrcode"), {
+                width: 75,
+                height: 75
+            });
+            qrcode.makeCode(urlpara[0]);
+            $("#money").text("支付:"+urlpara[1].split("=")[1]);
+            $("#orderid").text("支付宝单号:"+urlpara[2].split("=")[1]);
+            $("#money1").text("￥"+urlpara[1].split("=")[1]);
+            //每秒执行一次,showTime()
+            showTime();
+        })
+    </script>
+</head>
+<body>
+<div id="root"><div class="normal___YzYMc">
+    <div class="ant-spin-nested-loading">
+        <div class="ant-spin-container">
+            <section class="ant-layout">
+                <div class="ant-row">
+                    <div class="ant-col ant-col-xs-2 ant-col-sm-4 ant-col-md-6 ant-col-lg-8 ant-col-xl-8"></div>
+                    <div class="ant-col ant-col-xs-20 ant-col-sm-16 ant-col-md-12 ant-col-lg-8 ant-col-xl-8">
+                        <main class="ant-layout-content" style="overflow: initial;">
+                            <div>
+                                <div class="ant-row sellerinfo___14xgU">
+                                    <div class="ant-col ant-col-xs-18 ant-col-sm-18 ant-col-md-18 ant-col-lg-18 ant-col-xl-18">
+                                        <div>
+                                            <div id="orderid">支付单号：7D512D56
+                                            </div></div></div>
+                                    <div class="ant-col ant-col-xs-6 ant-col-sm-6 ant-col-md-6 ant-col-lg-6 ant-col-xl-6">
+                                        <div id="money1" style="text-align: right;">￥10</div>
+                                    </div></div>
+                                <div class="ant-row">
+                                    <div class="ant-col ant-col-xs-16 ant-col-sm-16 ant-col-md-16 ant-col-lg-16 ant-col-xl-16">
+                                        <div>
+                                            <p style="text-align: left; color: rgb(119, 119, 119);">
+                                                <span id="money">支付：10 元</span></p>
+                                        </div></div>
+                                    <div class="ant-col ant-col-xs-8 ant-col-sm-8 ant-col-md-8 ant-col-lg-8 ant-col-xl-8">
+                                        <div data-show="true" class="ant-alert ant-alert-info ant-alert-no-icon">
+                                            <span class="ant-alert-message">待支付</span>
+                                            <span class="ant-alert-description"></span>
+                                        </div></div>
+                                </div>
+                                <div id="showtimes" style="display: flex;justify-content: flex-end" >60</div>
+                            </div>
+                            <div class="ant-divider ant-divider-horizontal" style="margin: 10px;">
+
+                            </div></main></div>
+                    <div class="ant-col ant-col-xs-2 ant-col-sm-4 ant-col-md-6 ant-col-lg-8 ant-col-xl-8">
+
+                    </div></div>
+                <div class="ant-row">
+                    <div class="ant-col ant-col-xs-2 ant-col-sm-4 ant-col-md-6 ant-col-lg-8 ant-col-xl-8"></div>
+                    <div class="ant-col ant-col-xs-20 ant-col-sm-16 ant-col-md-12 ant-col-lg-8 ant-col-xl-8">
+                        <main class="ant-layout-content" style="overflow: initial;"><div><div><div class="ant-row">
+                            <div class="ant-col ant-col-xs-8 ant-col-sm-6 ant-col-md-6 ant-col-lg-6 ant-col-xl-6"></div>
+                            <div class="ant-col ant-col-xs-4 ant-col-sm-6 ant-col-md-6 ant-col-lg-6 ant-col-xl-6"></div>
+                            <div class="ant-col ant-col-xs-6 ant-col-sm-7 ant-col-md-8 ant-col-lg-8 ant-col-xl-8"></div>
+                            <div class="ant-col ant-col-xs-6 ant-col-sm-5 ant-col-md-4 ant-col-lg-4 ant-col-xl-4">
+                                <div>
+
+                                </div></div></div>
+                            <div class="ant-collapse ant-collapse-borderless ant-collapse-icon-position-left" style="background-color: rgb(242, 244, 246);">
+                                <div class="ant-collapse-item ant-collapse-item-active ant-collapse-no-arrow" style="background: rgba(255, 255, 255, 0.77); border-radius: 4px; margin-bottom: 24px; border: 0px; overflow: hidden;">
+                                    <div class="ant-collapse-header" role="button" tabindex="0" aria-expanded="true">
+                                        <div class="ant-row"><div class="ant-col ant-col-2">
+                                            <img src="/images/alipay.ico" style="width: 16px; height: 16px;"></div>
+                                            <div class="ant-col ant-col-10"><p style="text-align: left;">支付宝</p>
+                                            </div>
+                                            <div class="ant-col ant-col-12"><p style="text-align: right;">&nbsp;</p></div>
+                                        </div>
+                                    </div>
+                                    <div class="ant-collapse-content ant-collapse-content-active">
+                                        <p style="font-size: 13px;">请使用支付宝扫码</p>
+                                        <div id="qrcode" style="display:flex; justify-content:center" ></div>
+
+                                    </div></div></div></div></div></div></div></main></div>
+        <div class="ant-col ant-col-xs-2 ant-col-sm-4 ant-col-md-6 ant-col-lg-8 ant-col-xl-8">
+
+        </div></div><div class="ant-row" style="margin-top: 10px; padding-top: 20px;">
+
+</div><div class="ant-row" style="padding-bottom: 20px;">
+    <div class="ant-col ant-col-xs-2 ant-col-sm-4 ant-col-md-6 ant-col-lg-8 ant-col-xl-8">
+
+    </div>
+    <div class="ant-col ant-col-xs-11 ant-col-sm-8 ant-col-md-6 ant-col-lg-4 ant-col-xl-4">
+        <div style="text-align: left; padding: 8px;">
+            <i aria-label="图标: safety-certificate" class="anticon anticon-safety-certificate">
+                <svg viewBox="64 64 896 896" class="" data-icon="safety-certificate" width="1em" height="1em" fill="currentColor" aria-hidden="true" focusable="false">
+                    <path d="M866.9 169.9L527.1 54.1C523 52.7 517.5 52 512 52s-11 .7-15.1 2.1L157.1 169.9c-8.3 2.8-15.1 12.4-15.1 21.2v482.4c0 8.8 5.7 20.4 12.6 25.9L499.3 968c3.5 2.7 8 4.1 12.6 4.1s9.2-1.4 12.6-4.1l344.7-268.6c6.9-5.4 12.6-17 12.6-25.9V191.1c.2-8.8-6.6-18.3-14.9-21.2zM810 654.3L512 886.5 214 654.3V226.7l298-101.6 298 101.6v427.6zm-405.8-201c-3-4.1-7.8-6.6-13-6.6H336c-6.5 0-10.3 7.4-6.5 12.7l126.4 174a16.1 16.1 0 0 0 26 0l212.6-292.7c3.8-5.3 0-12.7-6.5-12.7h-55.2c-5.1 0-10 2.5-13 6.6L468.9 542.4l-64.7-89.1z"></path>
+                </svg></i>&nbsp;<span>提供支持</span><a href="https://mugglepay.com">&nbsp;MugglePay</a>
+        </div>
+    </div>
+    <div class="ant-col ant-col-xs-3 ant-col-sm-3 ant-col-md-2 ant-col-lg-2 ant-col-xl-2">
+        <div style="text-align: right;"><button type="button" class="ant-btn ant-btn-sm" style="font-size: 11px; margin: 5px;">
+            <span>English</span>
+        </button></div></div>
+    <div class="ant-col ant-col-xs-3 ant-col-sm-3 ant-col-md-2 ant-col-lg-1 ant-col-xl-1">
+        <div style="text-align: right;">
+            <a href="https://github.com/bitpaydev/docs/blob/master/FAQ.md" target="_blank" class="ant-btn ant-btn-dashed ant-btn-sm" style="font-size: 11px; margin: 5px;">
+                <span>FAQ</span></a></div></div>
+    <div class="ant-col ant-col-xs-3 ant-col-sm-2 ant-col-md-2 ant-col-lg-1 ant-col-xl-1">
+        <div style="text-align: right;">
+            <button type="button" class="ant-btn ant-btn-dashed ant-btn-sm" style="font-size: 11px; margin: 5px;"><span>退款投诉</span></button></div>
+    </div><div class="ant-col ant-col-xs-2 ant-col-sm-4 ant-col-md-6 ant-col-lg-8 ant-col-xl-8">
+</div></div></section></div></div></div></div>
+</body>
+</html>

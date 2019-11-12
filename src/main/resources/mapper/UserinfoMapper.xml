@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.study.onlinebook.dao.mapper.UserinfoMapper">
+  <resultMap id="BaseResultMap" type="com.study.onlinebook.dao.entity.Userinfo">
+    <id column="uid" jdbcType="BIGINT" property="uid" />
+    <result column="actualname" jdbcType="VARCHAR" property="actualname" />
+    <result column="sex" jdbcType="VARCHAR" property="sex" />
+    <result column="creationtime" jdbcType="TIMESTAMP" property="creationtime" />
+    <result column="tel" jdbcType="VARCHAR" property="tel" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="selfintroduction" jdbcType="VARCHAR" property="selfintroduction" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from userinfo
+    where `uid` = #{uid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.study.onlinebook.dao.entity.Userinfo">
+    <selectKey keyProperty="uid" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into userinfo
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      uid,
+      <if test="actualname != null and actualname != ''">actualname,</if>
+      <if test="sex != null and sex != ''">sex,</if>
+      <if test="creationtime != null and creationtime != ''">creationtime,</if>
+      <if test="tel != null and tel != ''">tel,</if>
+      <if test="email != null and email != ''">email,</if>
+      <if test="selfintroduction != null and selfintroduction != ''">selfintroduction,</if>
+    </trim>
+    <trim prefix="values(" suffix=")" suffixOverrides=",">
+      #{uid,jdbcType=BIGINT},
+      <if test="actualname != null and actualname != ''">#{actualname,jdbcType=VARCHAR},</if>
+      <if test="sex != null and sex != ''">#{sex,jdbcType=VARCHAR},</if>
+      <if test="creationtime != null and creationtime != ''">#{creationtime,jdbcType=TIMESTAMP},</if>
+      <if test="tel != null and tel != ''">#{tel,jdbcType=VARCHAR},</if>
+      <if test="email != null and email != ''">#{email,jdbcType=VARCHAR},</if>
+      <if test="selfintroduction != null and selfintroduction != ''">#{selfintroduction,jdbcType=VARCHAR}</if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.study.onlinebook.dao.entity.Userinfo">
+    update userinfo
+<set>
+  <if test="actualname!=null and actualname!=''">actualname=#{actualname,jdbcType=VARCHAR},</if>
+  <if test="sex!=null and sex!=''">sex = #{sex,jdbcType=VARCHAR},</if><if test="creationtime!=null">creationtime=#{creationtime,jdbcType=TIMESTAMP},</if>
+<if test="tel!=null and tel!=''">tel = #{tel,jdbcType=VARCHAR},</if>
+<if test="email!=null and email!=''">email = #{email,jdbcType=VARCHAR},</if>
+<if test="selfintroduction!=null and selfintroduction!=''">selfintroduction = #{selfintroduction,jdbcType=VARCHAR}</if>
+</set>
+    where `uid` = #{uid,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select `uid`, actualname, sex, creationtime, tel, email, selfintroduction
+    from userinfo
+    where `uid` = #{uid,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select `uid`, actualname, sex, creationtime, tel, email, selfintroduction
+    from userinfo
+  </select>
+    <select id="findUserinfoByUid" resultMap="BaseResultMap">
+          select `uid`, actualname, sex, creationtime, tel, email, selfintroduction
+    from userinfo
+    where uid=#{uid}
+    </select>
+</mapper>
