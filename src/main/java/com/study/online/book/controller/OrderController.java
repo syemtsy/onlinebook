@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-@Api(tags = "订单管理", description = "订单管理")
+@Api(tags = "OrderController", description = "订单管理")
 @Controller
 public class OrderController {
     @Autowired
