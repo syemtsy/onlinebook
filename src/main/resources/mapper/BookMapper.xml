@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.study.onlinebook.dao.mapper.BookMapper">
-  <resultMap id="BaseResultMap" type="com.study.onlinebook.dao.entity.Book">
+<mapper namespace="com.study.online.book.dao.mapper.BookMapper">
+  <resultMap id="BaseResultMap" type="com.study.online.book.dao.entity.Book">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="bookname" jdbcType="VARCHAR" property="bookname" />
     <result column="author" jdbcType="VARCHAR" property="author" />
@@ -14,7 +14,7 @@
     delete from book
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.study.onlinebook.dao.entity.Book">
+  <insert id="insert" parameterType="com.study.online.book.dao.entity.Book">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -25,7 +25,7 @@
       #{categorynumber,jdbcType=VARCHAR}, #{isbn,jdbcType=BIGINT}, #{img,jdbcType=VARCHAR}
       )
   </insert>
-  <update id="updateByPrimaryKey" parameterType="com.study.onlinebook.dao.entity.Book">
+  <update id="updateByPrimaryKey" parameterType="com.study.online.book.dao.entity.Book">
     update book
     set bookname = #{bookname,jdbcType=VARCHAR},
       author = #{author,jdbcType=VARCHAR},
@@ -62,7 +62,7 @@
     </where>
   </select>
 
-  <resultMap id="BookVo" type="com.study.onlinebook.dao.entity.BookVo">
+  <resultMap id="BookVo" type="com.study.online.book.dao.entity.BookVo">
     <id column="id" property="id" />
     <result column="bookname" property="bookname" />
     <result column="author" property="author" />
@@ -70,7 +70,7 @@
     <result column="categorynumber" property="categorynumber" />
     <result column="isbn" property="isbn" />
     <result column="img" property="img" />
-    <association javaType="com.study.onlinebook.dao.entity.Detailedbook" property="detailedbook">
+    <association javaType="com.study.online.book.dao.entity.Detailedbook" property="detailedbook">
       <id column="isbn" property="isbn" />
       <result column="publishinghouse" property="publishinghouse" />
       <result column="publisheddate" property="publisheddate" />

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.study.onlinebook.dao.mapper.ShopcatMapper">
-  <resultMap id="BaseResultMap" type="com.study.onlinebook.dao.entity.Shopcat">
+<mapper namespace="com.study.online.book.dao.mapper.ShopcatMapper">
+  <resultMap id="BaseResultMap" type="com.study.online.book.dao.entity.Shopcat">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="uid" jdbcType="BIGINT" property="uid" />
     <result column="isbn" jdbcType="BIGINT" property="isbn" />
@@ -15,7 +15,7 @@
         delete from shopcat
     where uid = #{uid,jdbcType=BIGINT} and isbn=#{isbn}
   </delete>
-  <insert id="insert" parameterType="com.study.onlinebook.dao.entity.Shopcat">
+  <insert id="insert" parameterType="com.study.online.book.dao.entity.Shopcat">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -24,7 +24,7 @@
     values (#{uid,jdbcType=BIGINT}, #{isbn,jdbcType=BIGINT}, #{quantity,jdbcType=INTEGER}
       )
   </insert>
-  <update id="updateByPrimaryKey" parameterType="com.study.onlinebook.dao.entity.Shopcat">
+  <update id="updateByPrimaryKey" parameterType="com.study.online.book.dao.entity.Shopcat">
     update shopcat
     set `uid` = #{uid,jdbcType=BIGINT},
       isbn = #{isbn,jdbcType=BIGINT},
@@ -48,7 +48,7 @@
   </select>
 
 
-  <resultMap type="com.study.onlinebook.dao.entity.ShopcatVo" id="ShopcatVo">
+  <resultMap type="com.study.online.book.dao.entity.ShopcatVo" id="ShopcatVo">
 
   <result column="id" property="id"/>
 
@@ -58,7 +58,7 @@
 
   <result column="quantity" property="quantity"/>
 
-  <association property="book" javaType="com.study.onlinebook.dao.entity.Book">
+  <association property="book" javaType="com.study.online.book.dao.entity.Book">
 
   <id column="id" property="id"/>
 

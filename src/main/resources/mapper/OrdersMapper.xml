@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.study.onlinebook.dao.mapper.OrdersMapper">
-  <resultMap id="BaseResultMap" type="com.study.onlinebook.dao.entity.Orders">
+<mapper namespace="com.study.online.book.dao.mapper.OrdersMapper">
+  <resultMap id="BaseResultMap" type="com.study.online.book.dao.entity.Orders">
     <result column="orderid" jdbcType="BIGINT" property="orderid" />
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="uid" jdbcType="BIGINT" property="uid" />
@@ -11,7 +11,7 @@
     <result column="message" jdbcType="VARCHAR" property="message" />
       <result column="addressid" jdbcType="INTEGER" property="addressid"/>
   </resultMap>
-    <resultMap id="OrdersVo" type="com.study.onlinebook.dao.entity.OrdersVo">
+    <resultMap id="OrdersVo" type="com.study.online.book.dao.entity.OrdersVo">
         <result column="orderid" jdbcType="BIGINT" property="orderid" />
         <result column="status" jdbcType="INTEGER" property="status" />
         <result column="uid" jdbcType="BIGINT" property="uid" />
@@ -20,14 +20,14 @@
         <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
         <result column="message" jdbcType="VARCHAR" property="message" />
         <result column="addressid" jdbcType="INTEGER" property="addressid"/>
-        <collection property="ordersinfolist" ofType="com.study.onlinebook.dao.entity.Ordersinfo">
+        <collection property="ordersinfolist" ofType="com.study.online.book.dao.entity.Ordersinfo">
             <result column="id" property="id" />
             <result column="orderinfoid" property="orderinfoid" />
             <result column="isbn"  property="isbn" />
             <result column="number" property="number" />
         </collection>
     </resultMap>
-    <resultMap id="OrdersVoVo" type="com.study.onlinebook.dao.entity.OrdersVoVo">
+    <resultMap id="OrdersVoVo" type="com.study.online.book.dao.entity.OrdersVoVo">
         <result column="orderid" jdbcType="BIGINT" property="orderid"/>
         <result column="status" jdbcType="INTEGER" property="status"/>
         <result column="uid" jdbcType="BIGINT" property="uid"/>
@@ -36,13 +36,13 @@
         <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
         <result column="message" jdbcType="VARCHAR" property="message"/>
         <result column="addressid" jdbcType="INTEGER" property="addressid"/>
-        <collection property="ordersinfos" ofType="com.study.onlinebook.dao.entity.Ordersinfo">
+        <collection property="ordersinfos" ofType="com.study.online.book.dao.entity.Ordersinfo">
             <result column="id" property="id"/>
             <result column="orderinfoid" property="orderinfoid"/>
             <result column="isbn" property="isbn"/>
             <result column="number" property="number"/>
         </collection>
-        <collection property="books" ofType="com.study.onlinebook.dao.entity.Book">
+        <collection property="books" ofType="com.study.online.book.dao.entity.Book">
             <result column="id" property="id"/>
             <result column="bookname" property="bookname"/>
             <result column="author" property="author"/>
@@ -52,7 +52,7 @@
             <result column="img" property="img"/>
         </collection>
     </resultMap>
-  <insert id="insert" parameterType="com.study.onlinebook.dao.entity.Orders">
+  <insert id="insert" parameterType="com.study.online.book.dao.entity.Orders">
     <selectKey keyProperty="orderid" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.study.onlinebook.dao.mapper.DetailedbookMapper">
-  <resultMap id="BaseResultMap" type="com.study.onlinebook.dao.entity.Detailedbook">
+<mapper namespace="com.study.online.book.dao.mapper.DetailedbookMapper">
+  <resultMap id="BaseResultMap" type="com.study.online.book.dao.entity.Detailedbook">
     <id column="isbn" jdbcType="BIGINT" property="isbn" />
     <result column="publishinghouse" jdbcType="VARCHAR" property="publishinghouse" />
     <result column="publisheddate" jdbcType="TIMESTAMP" property="publisheddate" />
@@ -22,7 +22,7 @@
     delete from detailedbook
     where isbn = #{isbn,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.study.onlinebook.dao.entity.Detailedbook">
+  <insert id="insert" parameterType="com.study.online.book.dao.entity.Detailedbook">
     <selectKey keyProperty="isbn" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -39,7 +39,7 @@
       #{weight,jdbcType=DECIMAL}, #{numberofprints,jdbcType=INTEGER}, #{category,jdbcType=VARCHAR}
       )
   </insert>
-  <update id="updateByPrimaryKey" parameterType="com.study.onlinebook.dao.entity.Detailedbook">
+  <update id="updateByPrimaryKey" parameterType="com.study.online.book.dao.entity.Detailedbook">
     update detailedbook
     set publishinghouse = #{publishinghouse,jdbcType=VARCHAR},
       publisheddate = #{publisheddate,jdbcType=TIMESTAMP},

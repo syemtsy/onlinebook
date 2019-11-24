@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.study.onlinebook.dao.mapper.ShippingaddressMapper">
-  <resultMap id="BaseResultMap" type="com.study.onlinebook.dao.entity.Shippingaddress">
+<mapper namespace="com.study.online.book.dao.mapper.ShippingaddressMapper">
+  <resultMap id="BaseResultMap" type="com.study.online.book.dao.entity.Shippingaddress">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="uid" jdbcType="BIGINT" property="uid" />
     <result column="addressinfo" jdbcType="VARCHAR" property="addressinfo" />
@@ -16,7 +16,7 @@
     delete from shippingaddress
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.study.onlinebook.dao.entity.Shippingaddress">
+  <insert id="insert" parameterType="com.study.online.book.dao.entity.Shippingaddress">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -27,7 +27,7 @@
       #{postalcode,jdbcType=INTEGER}, #{receiver,jdbcType=VARCHAR}, #{tel,jdbcType=BIGINT}, 
       #{defult,jdbcType=INTEGER}, #{addressid,jdbcType=INTEGER})
   </insert>
-  <update id="updateByPrimaryKey" parameterType="com.study.onlinebook.dao.entity.Shippingaddress">
+  <update id="updateByPrimaryKey" parameterType="com.study.online.book.dao.entity.Shippingaddress">
     update shippingaddress
     set `uid` = #{uid,jdbcType=BIGINT},
       addressinfo = #{addressinfo,jdbcType=VARCHAR},
@@ -56,7 +56,7 @@
     select id, `uid`, addressinfo, address, postalcode, receiver, tel, defult, addressid
     from shippingaddress
   </select>
-  <select id="selectAllByUid" resultType="com.study.onlinebook.dao.entity.Shippingaddress">
+  <select id="selectAllByUid" resultType="com.study.online.book.dao.entity.Shippingaddress">
         select id, `uid`, addressinfo, address, postalcode, receiver, tel, defult,addressid
     from shippingaddress
     where uid=#{uid}

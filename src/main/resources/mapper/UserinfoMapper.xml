@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.study.onlinebook.dao.mapper.UserinfoMapper">
-  <resultMap id="BaseResultMap" type="com.study.onlinebook.dao.entity.Userinfo">
+<mapper namespace="com.study.online.book.dao.mapper.UserinfoMapper">
+  <resultMap id="BaseResultMap" type="com.study.online.book.dao.entity.Userinfo">
     <id column="uid" jdbcType="BIGINT" property="uid" />
     <result column="actualname" jdbcType="VARCHAR" property="actualname" />
     <result column="sex" jdbcType="VARCHAR" property="sex" />
@@ -14,7 +14,7 @@
     delete from userinfo
     where `uid` = #{uid,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.study.onlinebook.dao.entity.Userinfo">
+  <insert id="insert" parameterType="com.study.online.book.dao.entity.Userinfo">
     <selectKey keyProperty="uid" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -38,7 +38,7 @@
       <if test="selfintroduction != null and selfintroduction != ''">#{selfintroduction,jdbcType=VARCHAR}</if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKey" parameterType="com.study.onlinebook.dao.entity.Userinfo">
+  <update id="updateByPrimaryKey" parameterType="com.study.online.book.dao.entity.Userinfo">
     update userinfo
 <set>
   <if test="actualname!=null and actualname!=''">actualname=#{actualname,jdbcType=VARCHAR},</if>

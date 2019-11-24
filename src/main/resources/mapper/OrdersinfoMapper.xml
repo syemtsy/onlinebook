@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.study.onlinebook.dao.mapper.OrdersinfoMapper">
-  <resultMap id="BaseResultMap" type="com.study.onlinebook.dao.entity.Ordersinfo">
+<mapper namespace="com.study.online.book.dao.mapper.OrdersinfoMapper">
+  <resultMap id="BaseResultMap" type="com.study.online.book.dao.entity.Ordersinfo">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="orderinfoid" jdbcType="BIGINT" property="orderinfoid" />
     <result column="isbn" jdbcType="BIGINT" property="isbn" />
@@ -11,13 +11,13 @@
     delete from ordersinfo
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.study.onlinebook.dao.entity.Ordersinfo">
+  <insert id="insert" parameterType="com.study.online.book.dao.entity.Ordersinfo">
     insert into ordersinfo (id, orderinfoid, isbn, 
       `number`)
     values (#{id,jdbcType=BIGINT}, #{orderinfoid,jdbcType=BIGINT}, #{isbn,jdbcType=BIGINT}, 
       #{number,jdbcType=INTEGER})
   </insert>
-  <update id="updateByPrimaryKey" parameterType="com.study.onlinebook.dao.entity.Ordersinfo">
+  <update id="updateByPrimaryKey" parameterType="com.study.online.book.dao.entity.Ordersinfo">
     update ordersinfo
     set orderinfoid = #{orderinfoid,jdbcType=BIGINT},
       isbn = #{isbn,jdbcType=BIGINT},
