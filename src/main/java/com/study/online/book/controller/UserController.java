@@ -5,6 +5,8 @@ import com.study.online.book.service.UserService;
 import com.study.online.book.dao.entity.DataValid;
 import com.study.online.book.dao.entity.User;
 import com.study.online.book.service.UserinfoService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.Random;
 
+@Api(tags = "UserController",description = "用户登陆注册管理")
 @Controller
 public class UserController {
     @Autowired
@@ -31,6 +34,7 @@ public class UserController {
     @Autowired
     private UserinfoService userinfoService;
 
+    @ApiOperation("用户注册")
     @ResponseBody
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public String register(@Valid DataValid dataValid, BindingResult result, HttpSession session) {
@@ -49,6 +53,7 @@ public class UserController {
         return true;
     }
 
+    @ApiOperation("用户登录")
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
     public boolean login(@RequestParam String username, @RequestParam String password, HttpServletRequest request, HttpServletResponse response) {
@@ -71,6 +76,7 @@ public class UserController {
 
     }
 
+    @ApiOperation("注销")
     @ResponseBody
     @RequestMapping("/loginout")
     public boolean loginout(HttpSession session, HttpServletResponse response) {
@@ -86,6 +92,7 @@ public class UserController {
         return true;
     }
 
+    @ApiOperation("返回用户登陆状态")
     @RequestMapping(value = "/islogin", method = RequestMethod.POST)
     @ResponseBody
     public boolean isLogin(@RequestParam String username, HttpSession session) {
