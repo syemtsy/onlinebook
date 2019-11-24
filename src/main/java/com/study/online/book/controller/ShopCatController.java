@@ -1,5 +1,6 @@
 package com.study.online.book.controller;
 
+import com.study.online.book.common.api.CommonResult;
 import com.study.online.book.service.ShopcatService;
 import com.study.online.book.service.UserService;
 import com.study.online.book.dao.entity.Shopcat;
@@ -28,30 +29,30 @@ public class ShopCatController {
     @ApiOperation("获取自己的购物项分页列表")
     @ResponseBody
     @RequestMapping(value = "/myshopcat", method = RequestMethod.GET)
-    public List<ShopcatVo> getmyshopcat(@ApiParam("第几页") @RequestParam Integer pageable,
-                                        HttpServletRequest request) {
+    public CommonResult<List<ShopcatVo>> getmyshopcat(@ApiParam("第几页") @RequestParam Integer pageable,
+                                                     HttpServletRequest request) {
         String name = (String) request.getSession().getAttribute("name");
 //        Subject subject = SecurityUtils.getSubject();
 //      String name= (String) subject.getPrincipal();
         Long uid = userService.findByName(name).getUid();
-        return shopcatService.findByUid(uid, pageable);
+        return CommonResult.success(shopcatService.findByUid(uid, pageable));
     }
 
     @ApiOperation("删除购物项")
     @ResponseBody
     @RequestMapping(value = "/myshopcat", method = RequestMethod.DELETE)
-    public String deleteshopcat(@ApiParam("书籍编号")@RequestParam Long isbn,
+    public CommonResult<String> deleteshopcat(@ApiParam("书籍编号")@RequestParam Long isbn,
                                 HttpServletRequest request) {
         String name = (String) request.getSession().getAttribute("name");
         Long uid = userService.findByName(name).getUid();
         shopcatService.deleteByUid(uid, isbn);
-        return "true";
+        return CommonResult.success("true");
     }
 
     @ApiOperation("增加购物项")
     @ResponseBody
     @RequestMapping(value = "/shopcat", method = RequestMethod.POST)
-    public boolean addshopcat(@ApiParam("购物项字符串数组/改成json") String info, HttpServletRequest request) {
+    public CommonResult<Boolean> addshopcat(@ApiParam("购物项字符串数组/改成json") String info, HttpServletRequest request) {
         String name = (String) request.getSession().getAttribute("name");
 //        Subject subject = SecurityUtils.getSubject();
 //        String name= (String) subject.getPrincipal();
@@ -70,14 +71,14 @@ public class ShopCatController {
                 shopcatService.updateByisbn(uid, Long.parseLong(a[0]), Integer.parseInt(a[1]));
             }
         }
-        return true;
+        return CommonResult.success(true);
     }
     @ApiOperation("更新购物项")
     @ResponseBody
     @RequestMapping(value = "/shopcat", method = RequestMethod.PUT)
-    public boolean putshopcat(@RequestParam String shopinfo,HttpServletRequest request) {
+    public CommonResult<Boolean> putshopcat(@RequestParam String shopinfo,HttpServletRequest request) {
         String name = (String) request.getSession().getAttribute("name");
         Long uid = userService.findByName(name).getUid();
-        return shopcatService.putShopinfo(shopinfo, uid);
+        return CommonResult.success(shopcatService.putShopinfo(shopinfo, uid));
     }
 }

@@ -1,5 +1,6 @@
 package com.study.online.book.controller;
 
+import com.study.online.book.common.api.CommonResult;
 import com.study.online.book.service.UserService;
 import com.study.online.book.dao.entity.Shippingaddress;
 import com.study.online.book.service.ShippingaddressService;
@@ -22,20 +23,23 @@ public class ShippingaddressController {
     private UserService userService;
     @Autowired
     private ShippingaddressService shippingaddressService;
+
     @ApiOperation("根据session中的用户信息获取收货人所有地址")
     @RequestMapping(value = "/shippingaddresslist", method = RequestMethod.GET)
-    public List<Shippingaddress> getshippingaddresslist(HttpSession session) {
+    public CommonResult<List<Shippingaddress>> getshippingaddresslist(HttpSession session) {
         String username = (String) session.getAttribute("name");
         Long Uid = userService.findByName(username).getUid();
-        return shippingaddressService.findAllAddressByUid(Uid);
+        return CommonResult.success(shippingaddressService.findAllAddressByUid(Uid));
     }
+
+
     @ApiOperation("设置收货人默认地址")
     @RequestMapping("/shippingaddress")
-    public boolean shippingaddressDefault(HttpSession session,
+    public CommonResult<Boolean> shippingaddressDefault(HttpSession session,
                                           @ApiParam("收获地址索引") @RequestParam Integer index) {
         String username = (String) session.getAttribute("name");
         Long Uid = userService.findByName(username).getUid();
-        return shippingaddressService.setDefultAddress(index, Uid);
+        return CommonResult.success(shippingaddressService.setDefultAddress(index, Uid));
 
     }
 }

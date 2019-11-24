@@ -1,6 +1,7 @@
 package com.study.online.book.controller;
 
 import com.alipay.api.AlipayApiException;
+import com.study.online.book.common.api.CommonResult;
 import com.study.online.book.service.OrdersService;
 import com.study.online.book.service.ShopcatService;
 import com.study.online.book.service.UserService;
@@ -28,12 +29,13 @@ public class OrderController {
     @Autowired
     private ShopcatService shopcatService;
 
+
     @ApiOperation("添加一个订单")
     @ResponseBody
     @RequestMapping(value = "/order", method = RequestMethod.POST)
-    public String addorder(@ApiParam("商品*数字的数组") @RequestParam(required = false, value = "orderinfo[]")List<String> info,
-                           @ApiParam("来源-1.shopcat /购物车")@RequestParam String source,
-                           HttpServletRequest request) {
+    public CommonResult<String> addorder(@ApiParam("商品*数字的数组") @RequestParam(required = false, value = "orderinfo[]")List<String> info,
+                                        @ApiParam("来源-1.shopcat /购物车")@RequestParam String source,
+                                        HttpServletRequest request) {
 
         String name = (String) request.getSession().getAttribute("name");
         Long uid = userService.findByName(name).getUid();
@@ -44,40 +46,43 @@ public class OrderController {
             }
 
         }
-        return result;
+        return CommonResult.success(result);
     }
     @ApiOperation("检测订单是否支付")
     @ResponseBody
     @RequestMapping(value = "/order", method = RequestMethod.GET)
-    public boolean IsPay(@ApiParam("订单id")@RequestParam Long orderid) throws AlipayApiException {
-        return ordersService.IsPay(orderid);
+    public CommonResult<Boolean> IsPay(@ApiParam("订单id")@RequestParam Long orderid) throws AlipayApiException {
+        return CommonResult.success(ordersService.IsPay(orderid));
     }
 
     @ApiOperation("查询订单列表")
     @ResponseBody
     @RequestMapping(value = "/orderlist", method = RequestMethod.GET)
-    public List<Orders> orderlist(Integer pageable, HttpServletRequest request) {
+    public CommonResult<List<Orders>> orderlist(Integer pageable, HttpServletRequest request) {
         String name = (String) request.getSession().getAttribute("name");
         Long uid = userService.findByName(name).getUid();
-        return ordersService.findAllByUid(uid, pageable);
+        return CommonResult.success(ordersService.findAllByUid(uid, pageable));
     }
 
     @ApiOperation("查询订单详情")
     @ResponseBody
     @RequestMapping(value = "/ordersid", method = RequestMethod.GET)
-    public OrdersVoVo ordersid(Long orderid, HttpServletRequest request) {
+    public CommonResult<OrdersVoVo> ordersid(Long orderid, HttpServletRequest request) {
         String name = (String) request.getSession().getAttribute("name");
         Long uid = userService.findByName(name).getUid();
-        return ordersService.findByUid(uid, orderid);
+        return CommonResult.success(ordersService.findByUid(uid, orderid));
     }
 
     @ApiOperation("获取订单支付地址")
     @ResponseBody
     @RequestMapping(value = "/ordersid", method = RequestMethod.POST)
-    public String payUrl(Long orderid,String msg,Integer addressid,HttpServletRequest request) throws AlipayApiException {
+    public CommonResult<String> payUrl(@ApiParam("订单id") Long orderid,
+                         @ApiParam("订单留言") String msg,
+                         Integer addressid,
+                         HttpServletRequest request) throws AlipayApiException {
         String name = (String) request.getSession().getAttribute("name");
         Long uid = userService.findByName(name).getUid();
-        return ordersService.pay(uid, orderid, msg,addressid);
+        return CommonResult.success(ordersService.pay(uid, orderid, msg,addressid));
     }
 
 
